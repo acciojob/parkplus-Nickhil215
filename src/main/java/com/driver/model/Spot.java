@@ -23,6 +23,7 @@ public class Spot {
     private List<Reservation> reservationList;
 
     public Spot() {
+        this.occupied=false;
     }
 
     public Spot(SpotType spotType, int pricePerHour,boolean occupied) {
@@ -30,6 +31,7 @@ public class Spot {
         this.pricePerHour = pricePerHour;
         this.occupied = false;
     }
+
 
 
     public int getId() {
