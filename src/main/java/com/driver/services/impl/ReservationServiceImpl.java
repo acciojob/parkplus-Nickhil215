@@ -37,9 +37,7 @@ public class ReservationServiceImpl implements ReservationService {
             throw new Exception("Cannot make reservation");
         }
 
-        Reservation reservation=new Reservation();
-        reservation.setNumberOfHours(timeInHours);
-        reservation.setUser(user);
+
 //       Fetching Spots-List from ParkingLots
         List<Spot> spots=parkingLot.getSpotList();
         double minprice=Double.MAX_VALUE;
@@ -68,9 +66,15 @@ public class ReservationServiceImpl implements ReservationService {
             throw new Exception("Cannot make reservation");
         }
 
+        Reservation reservation=new Reservation();
+        reservation.setNumberOfHours(timeInHours);
+        reservation.setUser(user);
         reservation.setSpot(spotReserve);
-        user.getReservationList().add(reservation);
 
+        user.getReservationList().add(reservation);
+        spotReserve.getReservationList().add(reservation);
+
+        spotRepository3.save(spotReserve);
         userRepository3.save(user);
 //        reservationRepository3.save(reservation);
 

@@ -1,9 +1,6 @@
 package com.driver.services.impl;
 
-import com.driver.model.Payment;
-import com.driver.model.PaymentMode;
-import com.driver.model.Reservation;
-import com.driver.model.Spot;
+import com.driver.model.*;
 import com.driver.repository.ParkingLotRepository;
 import com.driver.repository.PaymentRepository;
 import com.driver.repository.ReservationRepository;
@@ -30,6 +27,7 @@ public class PaymentServiceImpl implements PaymentService {
 
         Reservation reservation=reservationRepository2.findById(reservationId).get();
         Spot spot=reservation.getSpot();
+
         int amount=spot.getPricePerHour()*reservation.getNumberOfHours();
         if(amountSent<amount){
             throw new Exception("Insufficient Amount");
@@ -47,13 +45,14 @@ public class PaymentServiceImpl implements PaymentService {
         } else if (Mode.equals("UPI")) {
             payment.setPaymentMode(PaymentMode.UPI);
         }else{
-            payment.setPaymentComplated(false);
+            payment.setisPaymentCompleted(false);
             throw new Exception("Payment mode not detected");
         }
 
-        payment.setPaymentComplated(true);
+        payment.setisPaymentCompleted(true);
         payment.setReservation(reservation);
         reservation.setPayment(payment);
+
         reservationRepository2.save(reservation);
 
         return payment;

@@ -7,7 +7,7 @@ public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private boolean paymentComplated;
+    private boolean isPaymentCompleted;
     @Enumerated(value = EnumType.STRING)
     private PaymentMode paymentMode;
 
@@ -25,12 +25,12 @@ public class Payment {
         this.id = id;
     }
 
-    public boolean getPaymentCompleted() {
-        return paymentComplated;
+    public boolean getisPaymentCompleted() {
+        return isPaymentCompleted;
     }
 
-    public void setPaymentComplated(boolean paymentComplated) {
-        this.paymentComplated = paymentComplated;
+    public void setisPaymentCompleted(boolean paymentCompleted) {
+        isPaymentCompleted = paymentCompleted;
     }
 
     public PaymentMode getPaymentMode() {
