@@ -1,22 +1,20 @@
 package com.driver.model;
 
-import com.driver.services.ParkingLotService;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 public class ParkingLot {
+
   @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private int id;
+
   private String name;
+
   private String address;
 
-  @OneToMany(mappedBy = "parkingLot",cascade = CascadeType.ALL)
-  private List<Spot> spotList;
 
   public ParkingLot(String name, String address) {
     this.name = name;
@@ -25,6 +23,10 @@ public class ParkingLot {
 
   public ParkingLot() {
   }
+
+  @OneToMany(mappedBy = "parkingLot",cascade = CascadeType.ALL)
+  private List<Spot> spotList=new ArrayList<>();
+
 
   public int getId() {
     return id;
