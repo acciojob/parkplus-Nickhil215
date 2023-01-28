@@ -46,19 +46,21 @@ public class ReservationServiceImpl implements ReservationService {
         Spot spotReserve=null;
 
         for(Spot spot:spots){
-            if(!spot.isOccupied() && numberOfWheels==2 && spot.getSpotType()==SpotType.TWO_WHEELER && spot.getPricePerHour()<minprice){
+            if(!spot.getOccupied() && numberOfWheels==2 && spot.getSpotType()==SpotType.TWO_WHEELER && spot.getPricePerHour()<minprice){
                minprice=spot.getPricePerHour();
                spotReserve=spot;
                spot.setOccupied(true);
-            } else if (!spot.isOccupied() && numberOfWheels<=4 && spot.getSpotType()==SpotType.FOUR_WHEELER) {
+               break;
+            } else if (!spot.getOccupied() && numberOfWheels<=4 && spot.getSpotType()==SpotType.FOUR_WHEELER && spot.getPricePerHour()<minprice) {
                 spotReserve=spot;
                 minprice= spot.getPricePerHour();
                 spot.setOccupied(true);
-            } else if (!spot.isOccupied() && numberOfWheels!=2 && numberOfWheels!=4 && spot.getSpotType()==SpotType.OTHERS) {
+                break;
+            } else if (!spot.getOccupied() && numberOfWheels!=2 && numberOfWheels!=4 && spot.getSpotType()==SpotType.OTHERS && spot.getPricePerHour()<minprice) {
                spotReserve=spot;
                minprice=spot.getPricePerHour();
                 spot.setOccupied(true);
-
+                break;
             }
         }
 

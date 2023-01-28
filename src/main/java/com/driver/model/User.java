@@ -14,15 +14,15 @@ public class User {
 
     private String phoneNumber;
 
-    private String passWord;
+    private String password;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Reservation> reservationList;
 
-    public User(String name, String phoneNumber, String passWord) {
+    public User(String name, String phoneNumber, String password) {
         this.name = name;
         this.phoneNumber = phoneNumber;
-        this.passWord = passWord;
+        this.password = password;
     }
 
     public User() {
@@ -52,12 +52,12 @@ public class User {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getPassWord() {
-        return passWord;
+    public String getPassword() {
+        return password;
     }
 
-    public void setPassWord(String passWord) {
-        this.passWord = passWord;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public List<Reservation> getReservationList() {

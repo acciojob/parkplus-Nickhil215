@@ -5,6 +5,7 @@ import javax.persistence.*;
 @Entity
 public class Payment {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private boolean paymentComplated;
     @Enumerated(value = EnumType.STRING)

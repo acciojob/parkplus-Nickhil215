@@ -3,11 +3,13 @@ package com.driver.services.impl;
 import com.driver.model.Payment;
 import com.driver.model.PaymentMode;
 import com.driver.model.Reservation;
+import com.driver.model.Spot;
 import com.driver.repository.ParkingLotRepository;
 import com.driver.repository.PaymentRepository;
 import com.driver.repository.ReservationRepository;
 import com.driver.services.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.context.ServerPortInfoApplicationContextInitializer;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -27,6 +29,12 @@ public class PaymentServiceImpl implements PaymentService {
         //Note that the reservationId always exists
 
         Reservation reservation=reservationRepository2.findById(reservationId).get();
+        Spot spot=reservation.getSpot();
+        int amount=spot.getPricePerHour()*reservation.getNumberOfHours();
+        if(amountSent<amount){
+            throw new Exception("Insufficient Amount");
+
+        }
 
         Payment payment=new Payment();
 
@@ -46,6 +54,7 @@ public class PaymentServiceImpl implements PaymentService {
         payment.setPaymentComplated(true);
         payment.setReservation(reservation);
         reservation.setPayment(payment);
+        reservationRepository2.save(reservation);
 
         return payment;
     }
