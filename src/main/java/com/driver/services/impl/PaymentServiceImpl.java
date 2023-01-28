@@ -45,11 +45,11 @@ public class PaymentServiceImpl implements PaymentService {
         } else if (Mode.equals("UPI")) {
             payment.setPaymentMode(PaymentMode.UPI);
         }else{
-            payment.setisPaymentCompleted(false);
+            payment.setPaymentCompleted(false);
             throw new Exception("Payment mode not detected");
         }
 
-        payment.setisPaymentCompleted(true);
+        payment.setPaymentCompleted(true);
         payment.setReservation(reservation);
         reservation.setPayment(payment);
 

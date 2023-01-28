@@ -25,11 +25,12 @@ public class Spot {
     public Spot() {
     }
 
-    public Spot(SpotType spotType, int pricePerHour, boolean occupied) {
+    public Spot(SpotType spotType, int pricePerHour,boolean occupied) {
         this.spotType = spotType;
         this.pricePerHour = pricePerHour;
-        this.occupied = occupied;
+        this.occupied = false;
     }
+
 
     public int getId() {
         return id;
