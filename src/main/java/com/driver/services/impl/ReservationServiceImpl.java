@@ -9,6 +9,7 @@ import com.driver.services.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Iterator;
 import java.util.List;
 
 @Service
@@ -21,8 +22,57 @@ public class ReservationServiceImpl implements ReservationService {
     ReservationRepository reservationRepository3;
     @Autowired
     ParkingLotRepository parkingLotRepository3;
+
+
     @Override
     public Reservation reserveSpot(Integer userId, Integer parkingLotId, Integer timeInHours, Integer numberOfWheels) throws Exception {
 
+        //Reserve a spot in the given parkingLot such that the total price is minimum. Note that the price per hour for each spot is different
+        //Note that the vehicle can only be parked in a spot having a type equal to or larger than given vehicle
+        //If parkingLot is not found, user is not found, or no spot is available, throw "Cannot make reservation" exception.
+
+        ParkingLot parkingLot=parkingLotRepository3.findById(parkingLotId).get();
+        User user=userRepository3.findById(userId).get();
+        if(parkingLot==null || user==null){
+            throw new Exception("Cannot make reservation");
+        }
+
+        Reservation reservation=new Reservation();
+        reservation.setNumberOfHours(timeInHours);
+        reservation.setUser(user);
+//       Fetching Spots-List from ParkingLots
+        List<Spot> spots=parkingLot.getSpotList();
+        double minprice=Double.MAX_VALUE;
+        Spot spotReserve=null;
+
+        for(Spot spot:spots){
+            if(!spot.isOccupied() && numberOfWheels==2 && spot.getSpotType()==SpotType.TWO_WHEELER && spot.getPricePerHour()<minprice){
+               minprice=spot.getPricePerHour();
+               spotReserve=spot;
+               spot.setOccupied(true);
+            } else if (!spot.isOccupied() && numberOfWheels<=4 && spot.getSpotType()==SpotType.FOUR_WHEELER) {
+                spotReserve=spot;
+                minprice= spot.getPricePerHour();
+                spot.setOccupied(true);
+            } else if (!spot.isOccupied() && numberOfWheels!=2 && numberOfWheels!=4 && spot.getSpotType()==SpotType.OTHERS) {
+               spotReserve=spot;
+               minprice=spot.getPricePerHour();
+                spot.setOccupied(true);
+
+            }
+        }
+
+        if(spotReserve==null){
+            throw new Exception("Cannot make reservation");
+        }
+
+        reservation.setSpot(spotReserve);
+        user.getReservationList().add(reservation);
+
+        userRepository3.save(user);
+//        reservationRepository3.save(reservation);
+
+
+        return reservation;
     }
 }
